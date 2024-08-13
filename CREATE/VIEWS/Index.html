@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - YourProjectNamespace</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">YourProjectNamespace</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Message")">Send Message</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ViewMessages", "Message")">View Messages</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="container mt-4">
+        @RenderBody()
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+@model List<YourProjectNamespace.Models.Message>
+
+    <div class="container">
+        <h2 class="mb-4">Send a Message</h2>
+        <form asp-action="Index" method="post">
+            <div class="form-group">
+                <label for="Name">Name:</label>
+                <input type="text" id="Name" name="Name" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Email">Email:</label>
+                <input type="email" id="Email" name="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Content">Message:</label>
+                <textarea id="Content" name="Content" class="form-control" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+    
+        @if (Model != null && Model.Count > 0)
+        {
+            <h3 class="mt-4">Received Messages:</h3>
+            <ul class="list-group">
+            @foreach (var msg in Model)
+            {
+                <li class="list-group-item">
+                    <p><strong>Name:</strong> @msg.Name</p>
+                    <p><strong>Email:</strong> @msg.Email</p>
+                    <p><strong>Message:</strong> @msg.Content</p>
+                    <p><strong>Sent on:</strong> @msg.DateSent.ToString("g")</p>
+                </li>
+            }
+            </ul>
+        }
+    
+        @model List<YourProjectNamespace.Models.Message>
+
+            <div class="container">
+                <h2 class="mb-4">Received Messages</h2>
+            
+                @if (Model != null && Model.Count > 0)
+                {
+                    <ul class="list-group">
+                    @foreach (var msg in Model)
+                    {
+                        <li class="list-group-item">
+                            <p><strong>Name:</strong> @msg.Name</p>
+                            <p><strong>Email:</strong> @msg.Email</p>
+                            <p><strong>Message:</strong> @msg.Content</p>
+                            <p><strong>Sent on:</strong> @msg.DateSent.ToString("g")</p>
+                        </li>
+                    }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No messages received.</p>
+                }
+            </div>
+
+            
